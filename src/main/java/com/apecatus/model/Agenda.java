@@ -15,6 +15,8 @@ public class Agenda {
 		this.profissional = profissional;
 		this.dataHora = dataHora;
 	}
+	public Agenda() {}
+	
 	public int getId() {
 		return id;
 	}
@@ -28,8 +30,20 @@ public class Agenda {
 		return dataHora;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+	public void setProfissional(Profissional profissional) {
+		this.profissional = profissional;
+	}
+	public void setDataHora(LocalDateTime dataHora) {
+		this.dataHora = dataHora;
+	}
 	@Override
 	public String toString() {
-		return "Ficha: "+this.id+", Paciente: "+this.paciente.getNome()+", Profissional: "+this.profissional.getNome()+", Data e Hora: "+this.dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"))+"\r\n";
+		return "Ficha: "+this.id+", Paciente: "+this.paciente+", Profissional: "+this.profissional+", Data e Hora: "+this.dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"))+"\r\n";
 	}
 }

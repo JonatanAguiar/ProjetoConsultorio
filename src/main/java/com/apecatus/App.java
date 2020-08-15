@@ -11,21 +11,24 @@ import com.apecatus.dao.ProfissionalDao;
 import com.apecatus.model.Agenda;
 import com.apecatus.model.Paciente;
 import com.apecatus.model.Profissional;
+import com.apecatus.service.AdicionarAgenda;
 import com.apecatus.service.AdicionarPaciente;
 import com.apecatus.service.AdicionarProfissional;
 import com.apecatus.service.ListaAgendamento;
+import com.apecatus.service.ListaPaciente;
 
 public class App {
 	private static int num = 0;
 	private static int ficha = 0;
 	private static AdicionarPaciente adicionarPaciente;
 	private static AdicionarProfissional adicionarProfissional;
+	private static AdicionarAgenda adicionarAgenda;
 	private static Scanner sc = new Scanner(System.in);
-	private static ListaAgendamento listaAgendamento;
 	
 	public static void main(String[] args) throws IOException {
 		adicionarPaciente = new AdicionarPaciente();
 		adicionarProfissional = new AdicionarProfissional();
+		adicionarAgenda = new AdicionarAgenda();
 		int opcao = 0;
 		
 		do {
@@ -48,9 +51,6 @@ public class App {
 	}
 	
 	private static int menu(int opcao) throws IOException {
-		PacienteDao pacienteDao = new PacienteDao();
-		ProfissionalDao profissionalDao = new ProfissionalDao();
-		AgendaDao agendaDao = new AgendaDao();
 		Scanner scD = new Scanner(System.in);
 		int op;
 		switch (opcao) {
@@ -67,14 +67,14 @@ public class App {
 				scD.nextLine();
 				String endereco = scD.nextLine();
 				Paciente paciente = new Paciente(num++, nome, idade, endereco);
-				pacienteDao.add(paciente);
+				adicionarPaciente.adicionarPaciente(paciente);
 			}else {
 				System.out.println("Digite o departamento em que trabalha:");
 				String departamento = scD.nextLine();
 				System.out.println("Digite a sua especialidade:");
 				String especialidade = scD.nextLine();
 				Profissional profissional = new Profissional(num++, nome, departamento, especialidade);
-				profissionalDao.add(profissional);
+				adicionarProfissional.adicionarProfissional(profissional);
 			}
 			
 			break;
@@ -83,7 +83,8 @@ public class App {
 		case 3:
 			break;
 		case 4:
-			List<Paciente> listPacientes = pacienteDao.findAll();
+			PacienteDao pacienteDao = new PacienteDao();
+			List<Paciente> listPacientes = pacienteDao.findAll(); 
 			int idPac, idProf, ano, mes, dia;
 			String hora;
 			Paciente paciente=null;
@@ -104,6 +105,7 @@ public class App {
 					}
 				}
 			}
+			ProfissionalDao profissionalDao = new ProfissionalDao();
 			List<Profissional> listProfissionais = profissionalDao.findAll();
 			if (listProfissionais.isEmpty()) {
 				System.out.println("Não existem profissionais cadastrados, cadastre um antes de fazer o agendamento!\r\n");
@@ -135,7 +137,7 @@ public class App {
 				System.out.println(hr[1]);
 				LocalDateTime dataHora = LocalDateTime.of(2020, mes, dia, Integer.parseInt(hr[0]), Integer.parseInt(hr[1]), 0);
 				Agenda agenda = new Agenda(ficha++, paciente, profissional, dataHora);
-				agendaDao.add(agenda);
+				adicionarAgenda.adicionarAgenda(agenda);
 			}
 			break;
 		case 5:
@@ -145,6 +147,7 @@ public class App {
 			
 			break;
 		case 7:
+			AgendaDao agendaDao = new AgendaDao();
 			List<Agenda> listAgendamento = agendaDao.findAll();
 			if (listAgendamento.isEmpty()) {
 				System.out.println("Não existem agendamentos marcados!\r\n");

@@ -19,6 +19,14 @@ public class Pessoa {
 		return nome;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

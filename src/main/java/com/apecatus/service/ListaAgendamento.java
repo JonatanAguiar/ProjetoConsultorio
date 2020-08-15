@@ -7,6 +7,7 @@ import com.apecatus.dao.AgendaDao;
 import com.apecatus.model.Agenda;
 
 public class ListaAgendamento {
+	
 private AgendaDao agendaDao;
 	
 	public ListaAgendamento() throws IOException{
