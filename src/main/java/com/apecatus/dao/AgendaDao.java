@@ -42,7 +42,8 @@ public class AgendaDao  implements LerLinhaArquivo {
 	}
 	
 	public void lerLinhaDoArquivo(String linha) {
-		agendamentos.add(AgendaConverter.converterLinhaDoArquivoParaAgenda(linha));
+		if(agendamentos.isEmpty())
+			agendamentos.add(AgendaConverter.converterLinhaDoArquivoParaAgenda(linha));
 	}
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {

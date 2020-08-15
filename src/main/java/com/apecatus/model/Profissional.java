@@ -1,16 +1,37 @@
 package com.apecatus.model;
 
-public class Profissional extends Pessoa{
+import com.apecatus.service.InterfaceUltimoId;
+
+public class Profissional{
+	private int id;
+	private String nome;
 	private String departamento;
 	private String especialidade;
 
 	public Profissional(int id, String nome, String departamento, String especialidade) {
-		super(id, nome);
+		this.id = id;
+		this.nome = nome;
 		this.departamento = departamento;
 		this.especialidade = especialidade;
 	}
 
 	public Profissional() {}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public String getDepartamento() {
 		return departamento;
@@ -30,6 +51,6 @@ public class Profissional extends Pessoa{
 
 	@Override
 	public String toString() {
-		return super.toString() +", Departamento: "+this.departamento+", Especialidade: "+this.especialidade+"\r\n";
+		return this.id+","+this.nome+","+this.departamento+","+this.especialidade+",";
 	}
 }

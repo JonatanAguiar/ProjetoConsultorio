@@ -1,16 +1,37 @@
 package com.apecatus.model;
 
-public class Paciente extends Pessoa{
+import com.apecatus.service.InterfaceUltimoId;
+
+public class Paciente{
+	private int id;
+	private String nome;
 	private int idade;
 	private String endereco;
 
 	public Paciente(int id, String nome, int idade, String endereco) {
-		super(id, nome);
+		this.id = id;
+		this.nome = nome;
 		this.idade = idade;
 		this.endereco = endereco;
 	}
 
 	public Paciente() {}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public int getIdade() {
 		return idade;
@@ -30,6 +51,6 @@ public class Paciente extends Pessoa{
 
 	@Override
 	public String toString() {
-		return super.toString() +", Idade: "+this.idade+", Endereço: "+this.endereco+"\r\n";
+		return this.id+","+this.nome+","+this.idade+","+this.endereco+",";
 	}
 }

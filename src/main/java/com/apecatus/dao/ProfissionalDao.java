@@ -11,10 +11,11 @@ import java.util.List;
 import com.apecatus.converter.ProfissionalConverter;
 import com.apecatus.model.Profissional;
 import com.apecatus.service.EscreverLinhaArquivo;
+import com.apecatus.service.InterfaceUltimoId;
 import com.apecatus.service.LerArquivo;
 import com.apecatus.service.LerLinhaArquivo;
 
-public class ProfissionalDao  implements LerLinhaArquivo {
+public class ProfissionalDao  implements LerLinhaArquivo, InterfaceUltimoId{
 	private static List<Profissional> profissionais = new ArrayList<>();
 	private static ProfissionalDao instance;
 	private String fileName = "profissionais.txt";
@@ -42,7 +43,8 @@ public class ProfissionalDao  implements LerLinhaArquivo {
 	}
 	
 	public void lerLinhaDoArquivo(String linha) {
-		profissionais.add(ProfissionalConverter.converterLinhaDoArquivoParaProfissional(linha));
+		if(profissionais.isEmpty())
+			profissionais.add(ProfissionalConverter.converterLinhaDoArquivoParaProfissional(linha));
 	}
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {
@@ -56,5 +58,10 @@ public class ProfissionalDao  implements LerLinhaArquivo {
 		}
 		printWriter.close();
 		fileWriter.close();
+	}
+	
+	@Override
+	public int getUltId() {
+		return profissionais.size();
 	}
 }

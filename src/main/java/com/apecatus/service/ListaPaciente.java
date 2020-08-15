@@ -17,5 +17,7 @@ public class ListaPaciente {
 	public List<Paciente> buscarTodos() {
 		return pacienteDao.findAll();
 	}
-	
+	public int getUltId() {
+		return pacienteDao.getUltId();
+	}
 }

@@ -17,14 +17,14 @@ public class AgendaConverter {
 		String[] props = linha.split(DELIMITADOR);
 		
 		Paciente pac = new Paciente();
-		String[] pacBreack = props[1].split("?");
+		String[] pacBreack = props[1].split(",");
 		pac.setId(Integer.parseInt(pacBreack[0]));
 		pac.setNome(pacBreack[1]);
 		pac.setIdade(Integer.parseInt(pacBreack[2]));
 		pac.setEndereco(pacBreack[3]);
 
 		Profissional prof = new Profissional();
-		String[] profBreack = props[2].split("?");
+		String[] profBreack = props[2].split(",");
 		prof.setId(Integer.parseInt(profBreack[0]));
 		prof.setNome(profBreack[1]);
 		prof.setDepartamento(profBreack[2]);

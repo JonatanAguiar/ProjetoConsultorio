@@ -17,4 +17,7 @@ private ProfissionalDao profissionalDao;
 	public List<Profissional> buscarTodos() {
 		return profissionalDao.findAll();
 	}	
+	public int getUltId() {
+		return profissionalDao.getUltId();
+	}
 }

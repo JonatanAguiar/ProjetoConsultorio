@@ -44,6 +44,6 @@ public class Agenda {
 	}
 	@Override
 	public String toString() {
-		return "Ficha: "+this.id+", Paciente: "+this.paciente+", Profissional: "+this.profissional+", Data e Hora: "+this.dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"))+"\r\n";
+		return this.id+";"+this.paciente+";"+this.profissional+";"+this.dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"))+"\r\n";
 	}
 }

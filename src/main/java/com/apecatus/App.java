@@ -1,34 +1,19 @@
 package com.apecatus;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
 import com.apecatus.dao.AgendaDao;
-import com.apecatus.dao.PacienteDao;
-import com.apecatus.dao.ProfissionalDao;
 import com.apecatus.model.Agenda;
-import com.apecatus.model.Paciente;
-import com.apecatus.model.Profissional;
-import com.apecatus.service.AdicionarAgenda;
-import com.apecatus.service.AdicionarPaciente;
-import com.apecatus.service.AdicionarProfissional;
-import com.apecatus.service.ListaAgendamento;
-import com.apecatus.service.ListaPaciente;
+import com.apecatus.service.AgendamentoService;
+import com.apecatus.service.CadastroService;
 
-public class App {
-	private static int num = 0;
-	private static int ficha = 0;
-	private static AdicionarPaciente adicionarPaciente;
-	private static AdicionarProfissional adicionarProfissional;
-	private static AdicionarAgenda adicionarAgenda;
+public class App{
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) throws IOException {
-		adicionarPaciente = new AdicionarPaciente();
-		adicionarProfissional = new AdicionarProfissional();
-		adicionarAgenda = new AdicionarAgenda();
+		
 		int opcao = 0;
 		
 		do {
@@ -51,94 +36,22 @@ public class App {
 	}
 	
 	private static int menu(int opcao) throws IOException {
-		Scanner scD = new Scanner(System.in);
-		int op;
 		switch (opcao) {
 		case 1:
-			System.out.println("Digite:\r\n1-Paciente\r\n2-Profissional");
-			op = scD.nextInt();
-			scD.nextLine();
-			System.out.println("Digite seu nome:");
-			String nome = scD.nextLine();
-			if(op == 1) {
-				System.out.println("Digite a idade do Paciente:");
-				int idade = scD.nextInt();
-				System.out.println("Digite o endereço do Paciente:");
-				scD.nextLine();
-				String endereco = scD.nextLine();
-				Paciente paciente = new Paciente(num++, nome, idade, endereco);
-				adicionarPaciente.adicionarPaciente(paciente);
-			}else {
-				System.out.println("Digite o departamento em que trabalha:");
-				String departamento = scD.nextLine();
-				System.out.println("Digite a sua especialidade:");
-				String especialidade = scD.nextLine();
-				Profissional profissional = new Profissional(num++, nome, departamento, especialidade);
-				adicionarProfissional.adicionarProfissional(profissional);
-			}
-			
+			if(CadastroService.runCadastro() == true) 
+				System.out.println("Cadastro Concluido!");
+			else 
+				System.out.println("Falha no Cadastro!");
 			break;
 		case 2:
 			break;
 		case 3:
 			break;
 		case 4:
-			PacienteDao pacienteDao = new PacienteDao();
-			List<Paciente> listPacientes = pacienteDao.findAll(); 
-			int idPac, idProf, ano, mes, dia;
-			String hora;
-			Paciente paciente=null;
-			Profissional profissional=null;
-			boolean pac=false, prof=false;
-			if (listPacientes.isEmpty()) {
-				System.out.println("Não existem pacientes cadastrados, cadastre um antes de fazer o agendamento!\r\n");
-				break;
-			} else {
-				System.out.println("Escolha um dos pacientes pelo Id...");
-				listPacientes.forEach(x -> System.out.println(x));
-				System.out.println("Informe o Id do paciente desejado: ");
-				idPac = scD.nextInt();
-				for (Paciente pacient : listPacientes) {
-					if(pacient.getId() == idPac) {
-						pac=true;
-						paciente = pacient;
-					}
-				}
-			}
-			ProfissionalDao profissionalDao = new ProfissionalDao();
-			List<Profissional> listProfissionais = profissionalDao.findAll();
-			if (listProfissionais.isEmpty()) {
-				System.out.println("Não existem profissionais cadastrados, cadastre um antes de fazer o agendamento!\r\n");
-				break;
-			} else {
-				System.out.println("Escolha um dos profissionáris pelo Id...");
-				listProfissionais.forEach(x -> System.out.println(x));
-				System.out.println("Informe o Id do profissional desejado: ");
-				idProf = scD.nextInt();
-				for (Profissional profiss : listProfissionais) {
-					if(profiss.getId() == idProf) {
-						prof=true;
-						profissional = profiss;
-					}
-				}			
-			}
-			if(pac == true && prof == true) {
-				System.out.println("informe o dia da consulta (numericamente): ");
-				dia = scD.nextInt();
-				System.out.println("informe o mês da consulta (numericamente): ");
-				mes = scD.nextInt();
-				System.out.println("informe o ano da consulta (numericamente): ");
-				ano = scD.nextInt();
-				System.out.println("informe a hora da consulta (ex:'20:30'): ");
-				scD.nextLine();
-				hora = scD.nextLine();
-				String hr[] = hora.split(":");
-				System.out.println(hr[0]);
-				System.out.println(hr[1]);
-				LocalDateTime dataHora = LocalDateTime.of(2020, mes, dia, Integer.parseInt(hr[0]), Integer.parseInt(hr[1]), 0);
-				Agenda agenda = new Agenda(ficha++, paciente, profissional, dataHora);
-				adicionarAgenda.adicionarAgenda(agenda);
-			}
+			if(AgendamentoService.runAgendamento() == true) 
+				System.out.println("Agendamento Concluido!");
+			else 
+				System.out.println("Falha no agendamento!");
 			break;
 		case 5:
 			

@@ -11,10 +11,11 @@ import java.util.List;
 import com.apecatus.converter.PacienteConverter;
 import com.apecatus.model.Paciente;
 import com.apecatus.service.EscreverLinhaArquivo;
+import com.apecatus.service.InterfaceUltimoId;
 import com.apecatus.service.LerArquivo;
 import com.apecatus.service.LerLinhaArquivo;
 
-public class PacienteDao  implements LerLinhaArquivo {
+public class PacienteDao  implements LerLinhaArquivo, InterfaceUltimoId {
 	private static List<Paciente> pacientes = new ArrayList<>();
 	private static PacienteDao instance;
 	private String fileName = "pacientes.txt";
@@ -42,7 +43,8 @@ public class PacienteDao  implements LerLinhaArquivo {
 	}
 	
 	public void lerLinhaDoArquivo(String linha) {
-		pacientes.add(PacienteConverter.converterLinhaDoArquivoParaPaciente(linha));
+		if(pacientes.isEmpty())
+			pacientes.add(PacienteConverter.converterLinhaDoArquivoParaPaciente(linha));
 	}
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {
@@ -56,5 +58,10 @@ public class PacienteDao  implements LerLinhaArquivo {
 		}
 		printWriter.close();
 		fileWriter.close();
+	}
+	
+	@Override
+	public int getUltId() {
+		return pacientes.size();
 	}
 }
