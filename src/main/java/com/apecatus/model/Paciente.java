@@ -1,7 +1,5 @@
 package com.apecatus.model;
 
-import com.apecatus.service.InterfaceUltimoId;
-
 public class Paciente{
 	private int id;
 	private String nome;

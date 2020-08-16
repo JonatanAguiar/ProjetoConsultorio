@@ -5,20 +5,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
-import com.apecatus.dao.PacienteDao;
-import com.apecatus.dao.ProfissionalDao;
 import com.apecatus.model.Agenda;
 import com.apecatus.model.Paciente;
 import com.apecatus.model.Profissional;
+import com.apecatus.resource.AgendaResource;
+import com.apecatus.resource.ListaAgendamento;
+import com.apecatus.resource.ListaPaciente;
+import com.apecatus.resource.ListaProfissional;
 
-public class AgendamentoService {
-	private static int ficha = 0;
+public class AgendamentoService{ //classe que executa o agendamento
 	public static boolean runAgendamento() throws IOException {
 		Scanner sc = new Scanner(System.in);
-		PacienteDao pacienteDao = new PacienteDao();
-		ProfissionalDao profissionalDao = new ProfissionalDao();
-		AdicionarAgenda adicionarAgenda = new AdicionarAgenda();
-		List<Paciente> listPacientes = pacienteDao.findAll(); 
+		AgendaResource agendaResource = new AgendaResource();
+		ListaProfissional listaProfissional = new ListaProfissional();
+		ListaPaciente listaPaciente = new ListaPaciente();
+		ListaAgendamento listaAgendamento = new ListaAgendamento();
+		
+		List<Paciente> listPacientes = listaPaciente.buscarTodos(); 
 		int idPac, idProf, ano, mes, dia;
 		String hora;
 		Paciente paciente=null;
@@ -29,7 +32,9 @@ public class AgendamentoService {
 			return false;
 		} else {
 			System.out.println("Escolha um dos pacientes pelo Id...");
-			listPacientes.forEach(x -> System.out.println(x));
+			listPacientes.forEach(x -> {
+				System.out.println("Dados do paciente "+x.getId()+": "+x.getNome()+", "+x.getIdade()+", "+x.getEndereco());
+			});
 			System.out.println("Informe o Id do paciente desejado: ");
 			idPac = sc.nextInt();
 			for (Paciente pacient : listPacientes) {
@@ -39,13 +44,15 @@ public class AgendamentoService {
 				}
 			}
 		}
-		List<Profissional> listProfissionais = profissionalDao.findAll();
+		List<Profissional> listProfissionais = listaProfissional.buscarTodos();
 		if (listProfissionais.isEmpty()) {
 			System.out.println("Não existem profissionais cadastrados, cadastre um antes de fazer o agendamento!\r\n");
 			return false;
 		} else {
 			System.out.println("Escolha um dos profissionáris pelo Id...");
-			listProfissionais.forEach(x -> System.out.println(x));
+			listProfissionais.forEach(x -> {
+				System.out.println("Dados do profissional "+x.getId()+": "+x.getNome()+", "+x.getDepartamento()+", "+x.getEspecialidade());
+			});
 			System.out.println("Informe o Id do profissional desejado: ");
 			idProf = sc.nextInt();
 			for (Profissional profiss : listProfissionais) {
@@ -55,7 +62,7 @@ public class AgendamentoService {
 				}
 			}			
 		}
-		if(pac == true && prof == true) {
+		if(pac == true && prof == true) { //se tiver paciente e profissional, pega dados de data e hora
 			System.out.println("informe o dia da consulta (numericamente): ");
 			dia = sc.nextInt();
 			System.out.println("informe o mês da consulta (numericamente): ");
@@ -67,8 +74,8 @@ public class AgendamentoService {
 			hora = sc.nextLine();
 			String hr[] = hora.split(":");
 			LocalDateTime dataHora = LocalDateTime.of(2020, mes, dia, Integer.parseInt(hr[0]), Integer.parseInt(hr[1]), 0);
-			Agenda agenda = new Agenda(ficha++, paciente, profissional, dataHora);
-			adicionarAgenda.adicionarAgenda(agenda);
+			Agenda agenda = new Agenda(listaAgendamento.getUltId(), paciente, profissional, dataHora);
+			agendaResource.adicionar(agenda);
 			return true;
 		}
 		return false;

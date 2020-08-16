@@ -1,11 +1,11 @@
-package com.apecatus.service;
+package com.apecatus.uteis;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class EscreverLinhaArquivo {
+public class EscreverLinhaArquivo {//classe que grava no arquivo txt
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {
 		boolean existeArquivo = new File(fileName).exists();
@@ -14,7 +14,7 @@ public class EscreverLinhaArquivo {
 		if (existeArquivo) {
 			printWriter.println(linhaStr);
 		} else {
-			printWriter.print(linhaStr);
+			printWriter.println(linhaStr);
 		}
 		printWriter.close();
 		fileWriter.close();

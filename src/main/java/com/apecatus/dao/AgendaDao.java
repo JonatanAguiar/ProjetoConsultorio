@@ -10,11 +10,12 @@ import java.util.List;
 
 import com.apecatus.converter.AgendaConverter;
 import com.apecatus.model.Agenda;
-import com.apecatus.service.EscreverLinhaArquivo;
-import com.apecatus.service.LerArquivo;
-import com.apecatus.service.LerLinhaArquivo;
+import com.apecatus.uteis.EscreverLinhaArquivo;
+import com.apecatus.uteis.InterfaceUltimoId;
+import com.apecatus.uteis.LerArquivo;
+import com.apecatus.uteis.LerLinhaArquivo;
 
-public class AgendaDao  implements LerLinhaArquivo {
+public class AgendaDao implements LerLinhaArquivo, InterfaceUltimoId{
 	private static List<Agenda> agendamentos = new ArrayList<>();
 	private static AgendaDao instance;
 	private String fileName = "agendamentos.txt";
@@ -36,14 +37,19 @@ public class AgendaDao  implements LerLinhaArquivo {
 		return Collections.unmodifiableList(agendamentos);
 	}
 	
-	public boolean add(Agenda agenda) throws IOException {
-		escreverLinhaDoArquivo(fileName, AgendaConverter.converterAgendaParaLinhaDoArquivo(agenda));
-		return agendamentos.add(agenda);
+	public boolean add(Agenda object) throws IOException {
+		escreverLinhaDoArquivo(fileName, AgendaConverter.converterAgendaParaLinhaDoArquivo(object));
+		return agendamentos.add(object);
 	}
 	
 	public void lerLinhaDoArquivo(String linha) {
-		if(agendamentos.isEmpty())
-			agendamentos.add(AgendaConverter.converterLinhaDoArquivoParaAgenda(linha));
+		String[] props = linha.split(";"); 
+		for (Agenda agenda : agendamentos) {
+			if(Integer.parseInt(props[0]) == agenda.getId()) { //para evitar re-gravar os agendamentos na memoria
+				return;
+			}
+		}
+		agendamentos.add(AgendaConverter.converterLinhaDoArquivoParaAgenda(linha));	
 	}
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {
@@ -58,4 +64,25 @@ public class AgendaDao  implements LerLinhaArquivo {
 		printWriter.close();
 		fileWriter.close();
 	}
+	
+	@Override
+	public int getUltId() {
+		return agendamentos.size();
+	}
+	
+	public void set(Agenda object, Agenda update) {
+		int index=0;
+		for (Agenda agen : agendamentos) {
+  			if (object == agen) {
+      			agendamentos.set(index, update);
+       		}
+  			index++;
+       	}
+	}
+	
+	public void remove(int id) {
+		agendamentos.remove(id);
+	}
+
+
 }

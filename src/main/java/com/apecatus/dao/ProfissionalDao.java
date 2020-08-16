@@ -10,10 +10,10 @@ import java.util.List;
 
 import com.apecatus.converter.ProfissionalConverter;
 import com.apecatus.model.Profissional;
-import com.apecatus.service.EscreverLinhaArquivo;
-import com.apecatus.service.InterfaceUltimoId;
-import com.apecatus.service.LerArquivo;
-import com.apecatus.service.LerLinhaArquivo;
+import com.apecatus.uteis.EscreverLinhaArquivo;
+import com.apecatus.uteis.InterfaceUltimoId;
+import com.apecatus.uteis.LerArquivo;
+import com.apecatus.uteis.LerLinhaArquivo;
 
 public class ProfissionalDao  implements LerLinhaArquivo, InterfaceUltimoId{
 	private static List<Profissional> profissionais = new ArrayList<>();
@@ -34,17 +34,16 @@ public class ProfissionalDao  implements LerLinhaArquivo, InterfaceUltimoId{
 	}
 	
 	public List<Profissional> findAll() {
-		return Collections.unmodifiableList(profissionais);
+		return Collections.unmodifiableList(profissionais); // para nao deixar modificar diretamente
 	}
 	
-	public boolean add(Profissional profissional) throws IOException {
-		escreverLinhaDoArquivo(fileName, ProfissionalConverter.converterProfissionalParaLinhaDoArquivo(profissional));
-		return profissionais.add(profissional);
+	public boolean add(Profissional object) throws IOException {
+		escreverLinhaDoArquivo(fileName, ProfissionalConverter.converterProfissionalParaLinhaDoArquivo(object));
+		return profissionais.add(object);
 	}
 	
 	public void lerLinhaDoArquivo(String linha) {
-		if(profissionais.isEmpty())
-			profissionais.add(ProfissionalConverter.converterLinhaDoArquivoParaProfissional(linha));
+		profissionais.add(ProfissionalConverter.converterLinhaDoArquivoParaProfissional(linha));
 	}
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {
@@ -63,5 +62,19 @@ public class ProfissionalDao  implements LerLinhaArquivo, InterfaceUltimoId{
 	@Override
 	public int getUltId() {
 		return profissionais.size();
+	}
+	
+	public void set(Profissional object, Profissional update) {
+		int index = 0;	
+		for (Profissional prof : profissionais) {
+       		if (object == prof) {
+       			profissionais.set(index, update);
+       		}
+       		index++;
+		}	
+	}
+	
+	public void remove(int id) {
+		profissionais.remove(id);
 	}
 }

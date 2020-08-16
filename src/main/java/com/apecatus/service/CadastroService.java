@@ -3,19 +3,19 @@ package com.apecatus.service;
 import java.io.IOException;
 import java.util.Scanner;
 
-import com.apecatus.dao.PacienteDao;
-import com.apecatus.dao.ProfissionalDao;
 import com.apecatus.model.Paciente;
 import com.apecatus.model.Profissional;
+import com.apecatus.resource.ListaPaciente;
+import com.apecatus.resource.ListaProfissional;
+import com.apecatus.resource.PacienteResource;
+import com.apecatus.resource.ProfissionalResource;
 
 public class CadastroService {
-	public static boolean runCadastro() throws IOException {
-		AdicionarPaciente adicionarPaciente = new AdicionarPaciente();
-		AdicionarProfissional adicionarProfissional = new AdicionarProfissional();
-		AdicionarAgenda adicionarAgenda = new AdicionarAgenda();
-		
-		PacienteDao pacienteDao = new PacienteDao();
-		ProfissionalDao profissionalDao = new ProfissionalDao();
+	public static boolean runCadastro() throws IOException { //classe que executa o cadastro
+		PacienteResource pacienteResource = new PacienteResource();
+		ProfissionalResource profissionalResource = new ProfissionalResource();
+		ListaPaciente listaPaciente = new ListaPaciente();
+		ListaProfissional listaProfissional = new ListaProfissional();
 		int op;
 		Scanner scD = new Scanner(System.in);
 		System.out.println("Digite:\r\n1-Paciente\r\n2-Profissional");
@@ -29,18 +29,18 @@ public class CadastroService {
 			System.out.println("Digite o endereço do Paciente:");
 			scD.nextLine();
 			String endereco = scD.nextLine();
-			Paciente paciente = new Paciente(pacienteDao.getUltId(), nome, idade, endereco);
-			adicionarPaciente.adicionarPaciente(paciente);
+			Paciente paciente = new Paciente(listaPaciente.getUltId(), nome, idade, endereco);
+			pacienteResource.adicionar(paciente);
 			return true;
 		}else if(op == 2){
 			System.out.println("Digite o departamento em que trabalha:");
 			String departamento = scD.nextLine();
 			System.out.println("Digite a sua especialidade:");
 			String especialidade = scD.nextLine();
-			Profissional profissional = new Profissional(profissionalDao.getUltId(),nome, departamento, especialidade);
-			adicionarProfissional.adicionarProfissional(profissional);
+			Profissional profissional = new Profissional(listaProfissional.getUltId(),nome, departamento, especialidade);
+			profissionalResource.adicionar(profissional);
 			return true;
 		}
-		return false;
+		return false;//se a opção não existir, retorna falso
 	}
 }

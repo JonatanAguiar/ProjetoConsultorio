@@ -2,7 +2,7 @@ package com.apecatus.converter;
 
 import com.apecatus.model.Paciente;
 
-public class PacienteConverter {
+public class PacienteConverter {//converte dodados salvos no txt (String)
 	
 	private static final String DELIMITADOR = ",";
 	

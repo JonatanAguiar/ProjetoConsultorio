@@ -1,4 +1,4 @@
-package com.apecatus.service;
+package com.apecatus.uteis;
 
 public interface InterfaceUltimoId {
 

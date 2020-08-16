@@ -1,12 +1,12 @@
-package com.apecatus.service;
+package com.apecatus.uteis;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class LerArquivo {
-	
+public class LerArquivo { //classe que le o txt
+						  
 	private LerLinhaArquivo lerLinhaArquivo;
 	
 	public LerArquivo(LerLinhaArquivo lerLinhaArquivo) {
@@ -19,7 +19,7 @@ public class LerArquivo {
 			BufferedReader br = new BufferedReader(reader);
 			String linha;
 			while ((linha = br.readLine()) != null) {
-				this.lerLinhaArquivo.lerLinhaDoArquivo(linha);
+				this.lerLinhaArquivo.lerLinhaDoArquivo(linha); //lê a linha se ela existir
 			}
 			br.close();
 			reader.close();

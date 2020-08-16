@@ -2,7 +2,7 @@ package com.apecatus.converter;
 
 import com.apecatus.model.Profissional;
 
-public class ProfissionalConverter {
+public class ProfissionalConverter {//converte dodados salvos no txt (String)
 	
 	private static final String DELIMITADOR = ",";
 	

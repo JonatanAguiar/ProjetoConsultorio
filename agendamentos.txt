@@ -1,0 +1,2 @@
+0;1,Jon,22,Ven,;1,Pablo,Cirurgico,Geral,;2020-08-16T10:55
+1;2,Silviano,25,Vera Cruz,;0,Raul,Trauma,ortopedia,;2020-08-16T12:15

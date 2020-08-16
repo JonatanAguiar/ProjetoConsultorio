@@ -1,4 +1,4 @@
-package com.apecatus.service;
+package com.apecatus.resource;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +15,10 @@ private ProfissionalDao profissionalDao;
 	}
 	
 	public List<Profissional> buscarTodos() {
-		return profissionalDao.findAll();
+		List<Profissional> profs = profissionalDao.findAll();
+		return profs;
 	}	
+	
 	public int getUltId() {
 		return profissionalDao.getUltId();
 	}

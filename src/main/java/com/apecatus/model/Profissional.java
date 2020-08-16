@@ -1,7 +1,5 @@
 package com.apecatus.model;
 
-import com.apecatus.service.InterfaceUltimoId;
-
 public class Profissional{
 	private int id;
 	private String nome;

@@ -10,12 +10,12 @@ import java.util.List;
 
 import com.apecatus.converter.PacienteConverter;
 import com.apecatus.model.Paciente;
-import com.apecatus.service.EscreverLinhaArquivo;
-import com.apecatus.service.InterfaceUltimoId;
-import com.apecatus.service.LerArquivo;
-import com.apecatus.service.LerLinhaArquivo;
+import com.apecatus.uteis.EscreverLinhaArquivo;
+import com.apecatus.uteis.InterfaceUltimoId;
+import com.apecatus.uteis.LerArquivo;
+import com.apecatus.uteis.LerLinhaArquivo;
 
-public class PacienteDao  implements LerLinhaArquivo, InterfaceUltimoId {
+public class PacienteDao  implements LerLinhaArquivo, InterfaceUltimoId{
 	private static List<Paciente> pacientes = new ArrayList<>();
 	private static PacienteDao instance;
 	private String fileName = "pacientes.txt";
@@ -37,14 +37,13 @@ public class PacienteDao  implements LerLinhaArquivo, InterfaceUltimoId {
 		return Collections.unmodifiableList(pacientes);
 	}
 	
-	public boolean add(Paciente paciente) throws IOException {
-		escreverLinhaDoArquivo(fileName, PacienteConverter.converterPacienteParaLinhaDoArquivo(paciente));
-		return pacientes.add(paciente);
+	public boolean add(Paciente object) throws IOException {
+		escreverLinhaDoArquivo(fileName, PacienteConverter.converterPacienteParaLinhaDoArquivo(object));
+		return pacientes.add(object);
 	}
 	
 	public void lerLinhaDoArquivo(String linha) {
-		if(pacientes.isEmpty())
-			pacientes.add(PacienteConverter.converterLinhaDoArquivoParaPaciente(linha));
+		pacientes.add(PacienteConverter.converterLinhaDoArquivoParaPaciente(linha));
 	}
 	
 	public void escreverLinhaDoArquivo(String fileName, String linhaStr) throws IOException {
@@ -63,5 +62,19 @@ public class PacienteDao  implements LerLinhaArquivo, InterfaceUltimoId {
 	@Override
 	public int getUltId() {
 		return pacientes.size();
+	}
+	
+	public void set(Paciente object, Paciente update) {
+		int index=0;
+		for (Paciente pac : pacientes) {
+  			if (object == pac) {
+      			pacientes.set(index, update);
+       		}
+  			index++;
+       	}
+	}
+	
+	public void remove(int id) {
+		pacientes.remove(id);
 	}
 }

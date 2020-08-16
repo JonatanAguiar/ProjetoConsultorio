@@ -1,4 +1,4 @@
-package com.apecatus.service;
+package com.apecatus.resource;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +15,10 @@ public class ListaPaciente {
 	}
 	
 	public List<Paciente> buscarTodos() {
-		return pacienteDao.findAll();
+		List<Paciente> pacs = pacienteDao.findAll();
+		return pacs;
 	}
+	
 	public int getUltId() {
 		return pacienteDao.getUltId();
 	}

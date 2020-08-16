@@ -1,0 +1,3 @@
+0,Zé,45,SCS
+1,Silviano,25,Vera Cruz
+2,Fernando,33,Vacaria
